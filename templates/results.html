@@ -6,8 +6,6 @@
   <title>Search Results</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <!-- Third-party ad network script -->
-  <script async src="https://example-ad-network.com/ad-script.js"></script>
 </head>
 <body class="bg-gray-100">
   <div class="container mx-auto py-8">
@@ -23,14 +21,6 @@
         </div>
       </a>
       {% endfor %}
-    </div>
-    <!-- Ad placeholder at the bottom -->
-    <div id="bottom-ad" class="mt-6">
-      <script>
-        // Initialize the ad in this placeholder
-        exampleAdNetwork.displayAd('bottom-ad');
-      </script>
-    </div>
   </div>
   <script>
     gsap.from(".grid", { duration: 1, opacity: 0, y: 50, ease: "power3.out" });

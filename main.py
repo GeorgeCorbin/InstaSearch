@@ -7,7 +7,7 @@ from datetime import datetime
 app = Flask(__name__)
 
 # Instagram Graph API credentials
-ACCESS_TOKEN = os.getenv("IGQWRNdjJnX1RwSTF1Ny1DZAWdwcW5PYW9mSnc0UW1BRUtoeTVrV3hZAV1ZA5T0JmNGtmS09CeDQ0MW96UXJsSm9fMHZAaaUV6cGJQV0NoS3JBY2c1dllNdWpybVRMaWpkZAElPNldDeExhbU4wOEZAoYnoxYXEtU25RN1UZD")  # Set this in your environment variables
+ACCESS_TOKEN = os.getenv("token")  # Set this in your environment variables
 BASE_URL = "https://graph.instagram.com"
 # HANDLE = "goob_u2"  # Instagram handle for the specific user
 HANDLE = "george_corbin_"  # Instagram handle for the specific user
@@ -49,8 +49,7 @@ def fetch_posts():
     #     print(f"User ID for handle {HANDLE} not found.")
     #     return
 
-    # url = f"{BASE_URL}/me/media?fields=id,caption,media_type,media_url,timestamp&access_token={ACCESS_TOKEN}"
-    url = f"https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,timestamp,permalink&access_token=IGQWRNdjJnX1RwSTF1Ny1DZAWdwcW5PYW9mSnc0UW1BRUtoeTVrV3hZAV1ZA5T0JmNGtmS09CeDQ0MW96UXJsSm9fMHZAaaUV6cGJQV0NoS3JBY2c1dllNdWpybVRMaWpkZAElPNldDeExhbU4wOEZAoYnoxYXEtU25RN1UZD"
+    url = f"{BASE_URL}/me/media?fields=id,caption,media_type,media_url,timestamp&access_token={ACCESS_TOKEN}"
     response = requests.get(url)
     if response.status_code == 200:
         try:
