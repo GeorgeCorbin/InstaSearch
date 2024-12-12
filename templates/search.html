@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instagram Search Tool</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3127634799371497"
+     crossorigin="anonymous"></script>
+  <style>
+    .autocomplete-suggestions {
+      position: absolute;
+      background: white;
+      border: 1px solid #ddd;
+      max-height: 200px;
+      overflow-y: auto;
+      z-index: 1000;
+      width: 100%;
+    }
+    .autocomplete-suggestion {
+      padding: 10px;
+      cursor: pointer;
+    }
+    .autocomplete-suggestion:hover {
+      background: #f0f0f0;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+  <div class="bg-white shadow-lg rounded-lg p-8 max-w-lg w-full relative">
+    <h1 class="text-4xl font-bold text-center text-blue-500 mb-6">Search Instagram</h1>
+    <form method="POST" action="/search" class="relative">
+      <input
+        type="text"
+        id="search-input"
+        name="query"
+        class="border border-gray-300 rounded-lg w-full py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-400"
+        placeholder="Type a keyword..."
+        autocomplete="off"
+        required
+      />
+      <div id="autocomplete-list" class="autocomplete-suggestions hidden"></div>
+      <button
+        type="submit"
+        class="bg-blue-500 text-white py-2 px-6 rounded-lg shadow-md hover:bg-blue-600 transition mt-4 w-full">
+        Search
+      </button>
+    </form>
+    <div>
+      <!-- banner-ad -->
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-3127634799371497"
+           data-ad-slot="4240760855"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>
+           try {
+             (adsbygoogle = window.adsbygoogle || []).push({});
+           } catch (e) {
+             console.error('AdSense Error:', e);
+             const adPlaceholder = document.createElement('div');
+             adPlaceholder.textContent = "Ad loading...";
+             adPlaceholder.className = "text-gray-500 text-center mt-4";
+             document.querySelector("ins.adsbygoogle").parentNode.appendChild(adPlaceholder);
+           }
+      </script>
+    </div>
+  </div>
+
+  <script>
+    const searchInput = document.getElementById('search-input');
+    const autocompleteList = document.getElementById('autocomplete-list');
+
+    searchInput.addEventListener('input', () => {
+      const query = searchInput.value.trim();
+      if (query.length > 0) {
+        axios.get(`/autocomplete?query=${query}`)
+          .then(response => {
+            const suggestions = response.data;
+            autocompleteList.innerHTML = '';
+            if (suggestions.length > 0) {
+              suggestions.forEach(suggestion => {
+                const div = document.createElement('div');
+                div.textContent = suggestion;
+                div.classList.add('autocomplete-suggestion');
+                div.addEventListener('click', () => {
+                  searchInput.value = suggestion;
+                  autocompleteList.innerHTML = '';
+                  autocompleteList.classList.add('hidden');
+                });
+                autocompleteList.appendChild(div);
+              });
+              autocompleteList.classList.remove('hidden');
+            } else {
+              autocompleteList.classList.add('hidden');
+            }
+          })
+          .catch(error => console.error('Error fetching autocomplete suggestions:', error));
+      } else {
+        autocompleteList.innerHTML = '';
+        autocompleteList.classList.add('hidden');
+      }
+    });
+
+    document.addEventListener('click', (event) => {
+      if (!autocompleteList.contains(event.target) && event.target !== searchInput) {
+        autocompleteList.innerHTML = '';
+        autocompleteList.classList.add('hidden');
+      }
+    });
+  </script>
+</body>
+</html>
